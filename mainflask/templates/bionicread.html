@@ -1,0 +1,62 @@
+{%extends "layout.html" %}
+{%block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Bionic Reading Generator</title>
+</head>
+<body>
+    <h1>Bionic Reading Generator</h1>
+    <textarea id="input" rows="20" cols="40"></textarea>
+    <br/>
+    <div class="btn-group"></div>
+    <button id="generate">Generate</button>
+    <button id="clear">Clear</button>
+    <p id="output"></p>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+    <script>
+        var input = document.getElementById('input');
+        var result = document.getElementById('output');
+        var generate = document.getElementById('generate');
+        var clear = document.getElementById('clear');
+        const stopwords = [
+        'a', 'an', 'and', 'are', 'as', 'at', 'be', 'but', 'by', 'for', 'if', 'in', 'into', 
+        'is', 'it', 'no', 'not', 'of', 'on', 'or', 'such', 'that', 'the', 'their', 'then', 
+        'there', 'these', 'they', 'this', 'to', 'was', 'will', 'with', 'A', 'An', 'And', 
+        'Are', 'As', 'At', 'But', 'By', 'For', 'If', 'In', 'Into', 'Is', 'It', 'No', 'Not', 
+        'Of', 'On', 'Or', 'Such', 'That', 'The', 'Their', 'Then', 'There', 'These', 'They', 
+        'This', 'To', 'Was', 'Will', 'With'
+        ];
+
+        clear.addEventListener('click', function() {
+            input.value = '';
+            result.innerHTML = '';
+        });
+
+        generate.addEventListener('click', function() {
+            var words = input.value.split(' ');
+            var output = '';
+
+            for (var i = 0; i < words.length; i++) {
+            if (stopwords.includes(words[i])) {
+            // If the word is a stopword, just add it to the output without formatting
+            output += words[i] + ' ';
+            } else {
+            // If the word is not a stopword, format it with the <b> tag and add it to the output
+                output += '<b>' + words[i].slice(0, words[i].length / 2) + '</b>' + words[i].slice(words[i].length / 2, words[i].length) + ' ';
+            }
+         }
+
+  result.innerHTML = output;
+});
+
+    </script>
+</body>
+</html>
+
+{% endblock content%}

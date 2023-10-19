@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for post in posts %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.author }}</a>
+              <small class="text-muted">{{ post.date_posted }}</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+            <p class="article-content">{{ post.content }}</p>
+          </div>
+        </article>
+    {% endfor %}
+    
+    {% if current_user.is_authenticated %}
+    <div class="card">
+      <img src="{{ url_for('static', filename='QQCECC.jpg') }}" class="card-img-top" alt="..."  style="width: 200px; height: auto;"/>
+    
+      <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="{{url_for('quiz')}}" class="btn btn-primary">Quiz</a>
+      </div>
+    </div>
+    
+    <div class="card" aria-hidden="true">
+      <img src="{{ url_for('static', filename='QQCECC.jpg') }}" class="card-img-top" alt="..." style="width: 200px; height: auto;">
+      <div class="card-body">
+        <h5 class="card-title placeholder-glow">
+          <span class="placeholder col-6"></span>
+          <a href="{{url_for('bionicreader')}}" class="btn btn-primary">Bionic</a>
+        </h5>
+        <p class="card-text placeholder-glow">
+          <span class="placeholder col-7"></span>
+          <span class="placeholder col-4"></span>
+          <span class="placeholder col-4"></span>
+          <span class="placeholder col-6"></span>
+          <span class="placeholder col-8"></span>
+        </p>
+        <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true"></a>
+      </div>
+    </div>
+    {% endif %}
+{% endblock content %}
