@@ -139,6 +139,37 @@ def quiz():
     return render_template('quiz.html')
 
 
+@app.route("/todo")
+def todo():
+    user_id = current_user.id
+    todo_list = Todo.query.filter_by(user_id=user_id)
+    return render_template("base.html", todo_list=todo_list)    
+
+@app.route("/add", methods=["POST"])
+@login_required
+def add():
+    title = request.form.get("title")
+    user_id = current_user.id
+    new_todo = Todo(title=title, user_id=user_id,complete=False)
+    db.session.add(new_todo)
+    db.session.commit()
+    return redirect(url_for("todo"))
+
+@app.route("/update/<int:todo_id>")
+def update(todo_id):
+    user_id = current_user.id
+    todo = Todo.query.filter_by(id=todo_id,user_id=user_id).first()
+    todo.complete = not todo.complete
+    db.session.commit()
+    return redirect(url_for("todo"))
+
+@app.route("/delete/<int:todo_id>")
+def delete(todo_id):
+    user_id = current_user.id
+    todo = Todo.query.filter_by(id=todo_id, user_id=user_id).first()
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect(url_for("todo"))
 
     
 
