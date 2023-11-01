@@ -28,8 +28,31 @@ def default():
     return "<h1> this is the default page no</h1>"
 @app.route("/home")
 def home():
+    if current_user.is_authenticated:
+        user_id = current_user.id
+        query = text("""
+                WITH finaltable AS (
+                SELECT r.user_id, r.answer, r.question_number
+                FROM response r
+                WHERE r.user_id = :user_id
+                ORDER BY r.id DESC
+                LIMIT 18
+            )
+            SELECT COUNT(*)
+            FROM finaltable f
+            JOIN answers a ON f.answer = a.answers
+            AND f.question_number = a.question_id
+            ;
+            """)
+    
+        result = db.session.execute(query, {"user_id": user_id})
+        quiz_count = result.scalar()
+    else:
+        quiz_count=0
+    
+    return render_template("home.html",posts=posts,quiz_count=quiz_count)
    
-    return render_template("home.html",posts=posts)
+    
 
 
 @app.route("/about")
