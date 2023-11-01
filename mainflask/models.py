@@ -41,3 +41,13 @@ class Response(db.Model):
     
     def __repr__(self):
         return f"Response('{self.question_number}','{self.answer}','{self.user_id}')"
+
+class Answer(db.Model):
+    question_id=db.Column(db.Integer, primary_key=True)
+    answers=db.Column(db.Text)
+
+class Todo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100))
+    complete = db.Column(db.Boolean)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
