@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Summarizer</title>
+</head>
+<body>
+    <h1>Text Summarizer</h1>
+    <form method="POST" action="/textsum">
+        <label for="url">Enter URL:</label>
+        <input type="text" id="url" name="url"><br><br>
+        <label for="doc_path">Upload Document:</label>
+        <input type="file" id="doc_path" name="doc_path"><br><br>
+        <input type="submit" value="Summarize">
+    </form>
+    
+    <h2>Summary:</h2>
+    {% if summary %}
+        {% for sentence in summary %}
+            <p>{{ sentence }}</p>
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>
