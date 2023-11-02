@@ -194,6 +194,32 @@ def delete(todo_id):
     db.session.commit()
     return redirect(url_for("todo"))
 
+def url_summarize(url):
+    parser = HtmlParser.from_url(url, Tokenizer("english"))
+    summarizer = LsaSummarizer()
+    summary = summarizer(parser.document, 5)
+    return summary
+
+def doc_summarize(file_path):
+    parser = PlaintextParser.from_file(file_path, Tokenizer("english"))
+    summarizer = LsaSummarizer()
+    summary = summarizer(parser.document, 5)
+    return summary
+
+@app.route('/textsum', methods=['GET', 'POST'])
+def textsum():
+    if request.method == 'POST':
+        url = request.form['url']
+        doc_path = request.form['doc_path']
+        if url:
+            summary = url_summarize(url)
+        elif doc_path:
+            summary = doc_summarize(doc_path)
+        else:
+            summary = None
+        return render_template('textsummarizer.html', summary=summary)
+    return render_template('textsummarizer.html')
+
     
 
 
